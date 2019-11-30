@@ -1,0 +1,17 @@
+> table(agreement)
+agreement
+FALSE  TRUE 
+    2   167 
+> prop.table(table(agreement))
+agreement
+     FALSE       TRUE 
+0.01183432 0.98816568 
+> table(agreement_rbf)
+agreement_rbf
+FALSE  TRUE 
+    1   168 
+> prop.table(table(agreement_rbf))
+agreement_rbf
+     FALSE       TRUE 
+0.00591716 0.99408284 
+> 

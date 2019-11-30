@@ -1,0 +1,53 @@
+> library(rpart)
+> library(rpart.plot)
+> library(caTools)
+> 
+> BreastCancer <- read.csv("C:/Users/surya/Desktop/Breast Cancer Analysis/wisc_bc_data.csv")
+> df$BreastCancer<-ifelse(df$BreastCancer=='B', 0,1)
+Error in `$<-.data.frame`(`*tmp*`, BreastCancer, value = logical(0)) : 
+  replacement has 0 rows, data has 569
+> 
+> 
+> as.factor(BreastCancer$diagnosis)
+  [1] B B B B B B B M B B M B B B M B B B M B B B B B B M B M B B B M M B B B M B M M M M M B B M B M B B M B B B M B B B M M M M M M M B B B B B M B B B B B M B B M B B B B
+ [85] B B B B M B B B M B M M B B B M B B B M B B B B B B B B M M B M M M M B B M B M B B M M M M M B B M B M B B M B M M M M M B M B B B B B B B B B B M B B B B B B M M B M
+[169] B B M M M B M B M B M B B M B M B B M M M B M B B M M M M B B B M B B B B M B M B M B M M B B B B B M M B B M B B B B M M B B B B M B B M B B B M B B M M B B B B B B M
+[253] B M B B B B B B B B M B M M B B B M B M B B M M B M B B M B B B M B M M M B B B M B M M M M B M M B B M M M M B B B M M B B M B M M B B B M M B B M B M B M B B B B M B
+[337] B B M B B M M B M B B B M B B M B B M B B B M B M M B B B B M B B M B B B B B B B B B B B B M M B B M B M B M B B M B B B M M B B B M M B M B B M B B B B B B M B B M M
+[421] B M B B B M B B B M M M B M B B M B B B B B M B M B B B B M B M M B B B B M B B M M B B M B B M B B B B B M B M B M B M B M M B B M B M B M M M M B B B B M M M M M M B
+[505] B B B B M M B M M B M M M M M B B B M B B B B M B B B B B M M B B B B B M B B M M B B B B B B B M B B M B B B B M B B B B B M B M
+Levels: B M
+> 
+> 
+> set.seed(5)    
+> split=sample.split(BreastCancer, SplitRatio = 0.7)  # Splitting data into training and test dataset
+> training_set=subset(BreastCancer,split==TRUE)       # Training dataset
+> test_set=subset(BreastCancer,split==FALSE)          # Test dataset
+> dim(training_set)                                   # Dimenstions of training dataset
+[1] 391  32
+> 
+> set.seed(42)
+> # model_dtree <- rpart(diagnosis ~ radius_mean +
+> #                        texture_mean +
+> #                        perimeter_mean +
+> #                        area_mean +
+> #                        smoothness_mean +
+> #                        compactness_mean +
+> #                        concavity_mean +
+> #                        points_mean +
+> #                        symmetry_mean +
+> #                        dimension_mean,
+> #             data = training_set,
+> #             method = "class")
+> 
+> 
+> model_dtree<- rpart(diagnosis ~ ., data=training_set)       #Implementing Decision Tree
+> preds_dtree <- predict(model_dtree,newdata=test_set, type = "class")
+> 
+> rpart.plot(model_dtree, extra = 100)
+> plot(preds_dtree, main="Decision tree created using rpart")
+> (conf_matrix_dtree <- table(preds_dtree, test_set$diagnosis))
+           
+preds_dtree   B   M
+          B 102   5
+          M  10  61

@@ -1,0 +1,390 @@
+
+Naive Bayes Classifier for Discrete Predictors
+
+Call:
+naiveBayes.default(x = Breast_Cancer_Train, y = Breast_Cancer_train_labels)
+
+A-priori probabilities:
+Breast_Cancer_train_labels
+     B      M 
+0.6275 0.3725 
+
+Conditional probabilities:
+                          id
+Breast_Cancer_train_labels     [,1]      [,2]
+                         B 28822740 125984878
+                         M 26322412 104409421
+
+                          diagnosis
+Breast_Cancer_train_labels B M
+                         B 1 0
+                         M 0 1
+
+                          radius_mean
+Breast_Cancer_train_labels     [,1]     [,2]
+                         B 12.19607 1.766899
+                         M 17.50235 3.239655
+
+                          texture_mean
+Breast_Cancer_train_labels     [,1]     [,2]
+                         B 17.99892 3.979096
+                         M 21.29450 3.247593
+
+                          perimeter_mean
+Breast_Cancer_train_labels      [,1]     [,2]
+                         B  78.36223 11.73067
+                         M 115.59074 22.03272
+
+                          area_mean
+Breast_Cancer_train_labels     [,1]     [,2]
+                         B 466.4825 135.3401
+                         M 982.9926 373.5443
+
+                          smoothness_mean
+Breast_Cancer_train_labels      [,1]       [,2]
+                         B 0.0921839 0.01233078
+                         M 0.1027166 0.01242248
+
+                          compactness_mean
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.07832972 0.03242349
+                         M 0.14341953 0.05195287
+
+                          concavity_mean
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.04446876 0.04020288
+                         M 0.15913550 0.07036710
+
+                          points_mean
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.02530397 0.01589339
+                         M 0.08748530 0.03300843
+
+                          symmetry_mean
+Breast_Cancer_train_labels      [,1]       [,2]
+                         B 0.1741757 0.02432429
+                         M 0.1898987 0.02509214
+
+                          dimension_mean
+Breast_Cancer_train_labels       [,1]        [,2]
+                         B 0.06247080 0.006413966
+                         M 0.06229685 0.007487351
+
+                          radius_se
+Breast_Cancer_train_labels      [,1]      [,2]
+                         B 0.2821510 0.1078373
+                         M 0.6139262 0.3379014
+
+                          texture_se
+Breast_Cancer_train_labels     [,1]      [,2]
+                         B 1.239181 0.6228363
+                         M 1.222681 0.5087338
+
+                          perimeter_se
+Breast_Cancer_train_labels     [,1]      [,2]
+                         B 1.969266 0.7377731
+                         M 4.380577 2.4984063
+
+                          area_se
+Breast_Cancer_train_labels     [,1]      [,2]
+                         B 21.08957  8.713767
+                         M 72.56376 56.536590
+
+                          smoothness_se
+Breast_Cancer_train_labels        [,1]        [,2]
+                         B 0.007118048 0.003050892
+                         M 0.006947846 0.003218345
+
+                          compactness_se
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.02026288 0.01549576
+                         M 0.03266749 0.01920420
+
+                          concavity_se
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.02422181 0.02705875
+                         M 0.04229463 0.02158745
+
+                          points_se
+Breast_Cancer_train_labels        [,1]        [,2]
+                         B 0.009531494 0.005261707
+                         M 0.015254081 0.005409714
+
+                          symmetry_se
+Breast_Cancer_train_labels       [,1]        [,2]
+                         B 0.02034271 0.007181722
+                         M 0.02009659 0.009123463
+
+                          dimension_se
+Breast_Cancer_train_labels        [,1]        [,2]
+                         B 0.003474737 0.002637514
+                         M 0.004051832 0.002139383
+
+                          radius_worst
+Breast_Cancer_train_labels     [,1]     [,2]
+                         B 13.44075 1.992902
+                         M 21.13584 4.286371
+
+                          texture_worst
+Breast_Cancer_train_labels    [,1]     [,2]
+                         B 23.7596 5.660016
+                         M 28.8549 4.910944
+
+                          perimeter_worst
+Breast_Cancer_train_labels      [,1]     [,2]
+                         B  87.24976 13.53497
+                         M 141.41255 29.24802
+
+                          area_worst
+Breast_Cancer_train_labels      [,1]     [,2]
+                         B  564.0992 167.2143
+                         M 1421.0765 584.7031
+
+                          smoothness_worst
+Breast_Cancer_train_labels      [,1]       [,2]
+                         B 0.1245726 0.01953328
+                         M 0.1439026 0.02162557
+
+                          compactness_worst
+Breast_Cancer_train_labels      [,1]       [,2]
+                         B 0.1776573 0.08694152
+                         M 0.3675715 0.16445744
+
+                          concavity_worst
+Breast_Cancer_train_labels      [,1]      [,2]
+                         B 0.1625805 0.1360718
+                         M 0.4452119 0.1732972
+
+                          points_worst
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.07398299 0.03520890
+                         M 0.18133248 0.04583801
+
+                          symmetry_worst
+Breast_Cancer_train_labels      [,1]       [,2]
+                         B 0.2696614 0.04048675
+                         M 0.3159866 0.07205487
+
+                          dimension_worst
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.07874032 0.01336216
+                         M 0.09022980 0.02073354
+
+> CrossTable(sms_test_pred, Breast_Cancer_test_labels,
++            prop.chisq = FALSE, prop.t = FALSE, prop.r = FALSE,
++            dnn = c('predicted', 'actual'))
+   Cell Contents 
+|-------------------------|
+|                       N | 
+|           N / Col Total | 
+|-------------------------|
+
+==================================
+             actual
+predicted        B       M   Total
+----------------------------------
+B              102       2     104
+             0.962   0.032        
+----------------------------------
+M                4      61      65
+             0.038   0.968        
+----------------------------------
+Total          106      63     169
+             0.627   0.373        
+==================================
+> Breast_Cancer_classifier2
+
+Naive Bayes Classifier for Discrete Predictors
+
+Call:
+naiveBayes.default(x = Breast_Cancer_Train, y = Breast_Cancer_train_labels, 
+    laplace = 1)
+
+A-priori probabilities:
+Breast_Cancer_train_labels
+     B      M 
+0.6275 0.3725 
+
+Conditional probabilities:
+                          id
+Breast_Cancer_train_labels     [,1]      [,2]
+                         B 28822740 125984878
+                         M 26322412 104409421
+
+                          diagnosis
+Breast_Cancer_train_labels           B           M
+                         B 0.996047431 0.003952569
+                         M 0.006622517 0.993377483
+
+                          radius_mean
+Breast_Cancer_train_labels     [,1]     [,2]
+                         B 12.19607 1.766899
+                         M 17.50235 3.239655
+
+                          texture_mean
+Breast_Cancer_train_labels     [,1]     [,2]
+                         B 17.99892 3.979096
+                         M 21.29450 3.247593
+
+                          perimeter_mean
+Breast_Cancer_train_labels      [,1]     [,2]
+                         B  78.36223 11.73067
+                         M 115.59074 22.03272
+
+                          area_mean
+Breast_Cancer_train_labels     [,1]     [,2]
+                         B 466.4825 135.3401
+                         M 982.9926 373.5443
+
+                          smoothness_mean
+Breast_Cancer_train_labels      [,1]       [,2]
+                         B 0.0921839 0.01233078
+                         M 0.1027166 0.01242248
+
+                          compactness_mean
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.07832972 0.03242349
+                         M 0.14341953 0.05195287
+
+                          concavity_mean
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.04446876 0.04020288
+                         M 0.15913550 0.07036710
+
+                          points_mean
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.02530397 0.01589339
+                         M 0.08748530 0.03300843
+
+                          symmetry_mean
+Breast_Cancer_train_labels      [,1]       [,2]
+                         B 0.1741757 0.02432429
+                         M 0.1898987 0.02509214
+
+                          dimension_mean
+Breast_Cancer_train_labels       [,1]        [,2]
+                         B 0.06247080 0.006413966
+                         M 0.06229685 0.007487351
+
+                          radius_se
+Breast_Cancer_train_labels      [,1]      [,2]
+                         B 0.2821510 0.1078373
+                         M 0.6139262 0.3379014
+
+                          texture_se
+Breast_Cancer_train_labels     [,1]      [,2]
+                         B 1.239181 0.6228363
+                         M 1.222681 0.5087338
+
+                          perimeter_se
+Breast_Cancer_train_labels     [,1]      [,2]
+                         B 1.969266 0.7377731
+                         M 4.380577 2.4984063
+
+                          area_se
+Breast_Cancer_train_labels     [,1]      [,2]
+                         B 21.08957  8.713767
+                         M 72.56376 56.536590
+
+                          smoothness_se
+Breast_Cancer_train_labels        [,1]        [,2]
+                         B 0.007118048 0.003050892
+                         M 0.006947846 0.003218345
+
+                          compactness_se
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.02026288 0.01549576
+                         M 0.03266749 0.01920420
+
+                          concavity_se
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.02422181 0.02705875
+                         M 0.04229463 0.02158745
+
+                          points_se
+Breast_Cancer_train_labels        [,1]        [,2]
+                         B 0.009531494 0.005261707
+                         M 0.015254081 0.005409714
+
+                          symmetry_se
+Breast_Cancer_train_labels       [,1]        [,2]
+                         B 0.02034271 0.007181722
+                         M 0.02009659 0.009123463
+
+                          dimension_se
+Breast_Cancer_train_labels        [,1]        [,2]
+                         B 0.003474737 0.002637514
+                         M 0.004051832 0.002139383
+
+                          radius_worst
+Breast_Cancer_train_labels     [,1]     [,2]
+                         B 13.44075 1.992902
+                         M 21.13584 4.286371
+
+                          texture_worst
+Breast_Cancer_train_labels    [,1]     [,2]
+                         B 23.7596 5.660016
+                         M 28.8549 4.910944
+
+                          perimeter_worst
+Breast_Cancer_train_labels      [,1]     [,2]
+                         B  87.24976 13.53497
+                         M 141.41255 29.24802
+
+                          area_worst
+Breast_Cancer_train_labels      [,1]     [,2]
+                         B  564.0992 167.2143
+                         M 1421.0765 584.7031
+
+                          smoothness_worst
+Breast_Cancer_train_labels      [,1]       [,2]
+                         B 0.1245726 0.01953328
+                         M 0.1439026 0.02162557
+
+                          compactness_worst
+Breast_Cancer_train_labels      [,1]       [,2]
+                         B 0.1776573 0.08694152
+                         M 0.3675715 0.16445744
+
+                          concavity_worst
+Breast_Cancer_train_labels      [,1]      [,2]
+                         B 0.1625805 0.1360718
+                         M 0.4452119 0.1732972
+
+                          points_worst
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.07398299 0.03520890
+                         M 0.18133248 0.04583801
+
+                          symmetry_worst
+Breast_Cancer_train_labels      [,1]       [,2]
+                         B 0.2696614 0.04048675
+                         M 0.3159866 0.07205487
+
+                          dimension_worst
+Breast_Cancer_train_labels       [,1]       [,2]
+                         B 0.07874032 0.01336216
+                         M 0.09022980 0.02073354
+
+> CrossTable(Breast_Cancer_pred2, Breast_Cancer_test_labels,
++            prop.chisq = FALSE, prop.t = FALSE, prop.r = FALSE,
++            dnn = c('predicted', 'actual'))
+   Cell Contents 
+|-------------------------|
+|                       N | 
+|           N / Col Total | 
+|-------------------------|
+
+==================================
+             actual
+predicted        B       M   Total
+----------------------------------
+B              101       3     104
+             0.953   0.048        
+----------------------------------
+M                5      60      65
+             0.047   0.952        
+----------------------------------
+Total          106      63     169
+             0.627   0.373        
+==================================

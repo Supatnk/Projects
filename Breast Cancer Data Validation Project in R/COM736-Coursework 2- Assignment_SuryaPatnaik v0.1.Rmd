@@ -1,0 +1,483 @@
+---------------------------------------------------------------------------------------------------------------------
+COM736: Data Validation and Visualisation
+CRN: 45947
+Coursework 2- Assignment
+----------------------------------------------------------------------------------------------------------------------
+This item of coursework will contribute to 50% of the overall module mark. As part of this coursework, you are required to undertake data analysis and results visualisation of a data science problem, which may require discovering trends, making predictions and/or grouping objects/events. For this, you may take up the Wisconsin Breast Cancer Diagnostic datasets from the UCI Machine Learning Data Repository (https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)). Analyse the problem using the following 7-step systematic approach.
+You may like to use this file to  present your functioning code along with program outputs through this R Markdown document (http://rmarkdown.rstudio.com).   -----------------------------------------------------------------------------------------------------------------------  
+
+Exercise 1. Reading and manually checking.
+
+(a). View the Breast Cancer Diagnostic Datasets in a text-editor to determine its format and read the file into R. 
+```{r}
+setwd('C:\\Users\\surya\\Google Drive\\Ulster MSc Data Science\\COM736 ( 45947 ) - Data Valid and Visual. 2017-18\\Assessment\\COM736-Coursework 2- Assignment')
+cancerds <- read.csv(file = "breast-cancer-wisconsin.csv", header = FALSE, col.names = c("Sample code number",
+"Clump Thickness",
+"Uniformity of Cell Size",
+"Uniformity of Cell Shape",
+"Marginal Adhesion",
+"Single Epithelial Cell Size",
+"Bare Nuclei",
+"Bland Chromatin",
+"Normal Nucleoli",
+"Mitoses",
+"Class"), stringsAsFactors=FALSE)
+
+cancerds$Bare.Nuclei <- as.numeric(Dataset$Bare.Nuclei)
+#cancerds$Class <- as.factor(Dataset$Class)
+
+str(cancerds)
+#summary(cancerds) # variable summary
+
+#cancerds <- na.omit(cancerds)
+#str(cancerds)
+
+```
+
+
+#Visualise the data 
+```{r}
+library(ggplot2)
+df <-data.frame(cancerds)
+par(mfrow=(c(2,5)))
+
+#Clump Thickness
+hist(df$Clump.Thickness,breaks = 10,xlab = "Clump Thickness",ylab = "count")
+
+#Uniformity.of.Cell.Size
+hist(df$Uniformity.of.Cell.Size,breaks = 10,xlab = "Uniformity of Cell Size",ylab = "count")
+
+
+#Uniformity.of.Cell.Size - more than 400 between 0 and 2 - see if u can see any trends 
+hist(df$Uniformity.of.Cell.Size,breaks = 10,xlab = "Uniformity of Cell Size",ylab = "count")
+
+#Uniformity.of.Cell.Shape - more than 400 between 0 and 2
+hist(df$Uniformity.of.Cell.Shape,breaks = 10,xlab = "Uniformity of Cell Shape",ylab = "count")
+
+# - more than 400 between 0 and 2
+hist(df$Marginal.Adhesion,breaks = 10,xlab = "Marginal.Adhesion",ylab = "count")
+
+# - more than 400 between 0 and 2
+hist(df$Single.Epithelial.Cell.Size,breaks = 10,xlab = "Single.Epithelial.Cell.Size",ylab = "count")
+
+
+# - more than 400 between 0 and 2, and more than 100 in 10
+hist(df$Bare.Nuclei,breaks = 10,xlab = "Bare.Nuclei",ylab = "count")
+
+# - more than 300 between 0 and 2, and more than 150 in 3
+hist(df$Bland.Chromatin,breaks = 10,xlab = "Bland.Chromatin",ylab = "count")
+
+
+# - more than 400 between 0 and 2
+hist(df$Normal.Nucleoli,breaks = 10,xlab = "Normal.Nucleoli",ylab = "count")
+
+# - more than 600 between 0 and 2
+hist(df$Mitoses,breaks = 10,xlab = "Mitoses",ylab = "count")
+
+# - more than 400 in 2 and 200+ in 4 
+hist(df$Class,breaks = 2,xlab = "Class",ylab = "count")
+
+```
+
+
+Find any missing data 
+
+```{r}
+# 16 observations are not complete , and 
+# 683 observations are complete
+summary(complete.cases(cancerds))
+
+#96 observations are complete
+Dataset_complete <- na.omit(cancerds)
+summary(complete.cases(Dataset_complete))
+
+#percentage of observations complete
+mean(complete.cases(cancerds))*100
+
+
+```
+
+
+Does the data contain other special values? If it does, replace them with NA.
+
+```{r}
+
+is.special <- function(x){
+if (is.numeric(x)) !is.finite(x) else is.na(x)
+}
+
+#the below summary confirms there are 16 values in Bare.Nuclei with special values
+
+summary(sapply(cancerds,is.special))
+
+#summary(sapply(Dataset_complete,is.special))
+
+# the below code replaces the special value with NA
+is.na(cancerds) <- sapply(cancerds,is.special)
+
+```
+
+
+
+Find if there are any outliers in numerical properties of the cancer dataset using boxplot and boxplot.stats. Retrieve the corrosponding observations and look at the other values.  Set the outliers to NA (or a value that you find more appropiate).
+
+```{r}
+a<- cancerds$Clump.Thickness
+b<- cancerds$Uniformity.of.Cell.Size
+c<- cancerds$Uniformity.of.Cell.Shape
+d<- cancerds$Marginal.Adhesion
+e<- cancerds$Single.Epithelial.Cell.Size
+f<- cancerds$Bare.Nuclei
+g<- cancerds$Bland.Chromatin
+h<- cancerds$Normal.Nucleoli
+i<- cancerds$Mitoses
+
+Dataset_outlier <- cancerds
+
+#Outliers plotted using boxplot 
+#boxplot(w,x,y,z, coef = 1.5, names = c("Sepal.Length","Sepal.Width","Petal.Length","Petal.Width"))
+
+boxplot(a,b,c,d,e,f,g,h,i, coef = 1.5, names = c("Clump.Thickness","Uniformity.of.Cell.Size","Uniformity.of.Cell.Shape","Marginal.Adhesion","Single.Epithelial.Cell.Size","Bare.Nuclei","Bland.Chromatin","Normal.Nucleoli","Mitoses"))
+
+
+#There are some attributes with outliers, identify the outliers by $out
+
+# value of 9 and 10 is the outlier 
+Marginal.Adhesion_outlier <- boxplot(Dataset_outlier$Marginal.Adhesion, coef = 1.5)$out
+
+# value of 8,9,10 are outlier 
+Single.Epithelial.Cell.Size_outlier <- boxplot(Dataset_outlier$Single.Epithelial.Cell.Size, coef = 1.5)$out
+
+#value of 9 and 10 is the outlier
+Normal.Nucleoli_outlier <- boxplot(Dataset_outlier$Normal.Nucleoli, coef = 1.5)$out
+
+# value of 10 is the outlier 
+Bland.Chromatin_outlier <- boxplot(Dataset_outlier$Bland.Chromatin, coef = 1.5)$out
+
+# lot of outliers
+Mitoses_outlier <- boxplot(Dataset_outlier$Mitoses, coef = 1.5)$out
+
+#Updates cancerds - sets the outliers 
+
+cancerds$Marginal.Adhesion[Marginal.Adhesion_outlier]
+cancerds$Single.Epithelial.Cell.Size[Single.Epithelial.Cell.Size_outlier]
+cancerds$Normal.Nucleoli[Normal.Nucleoli_outlier]
+cancerds$Bland.Chromatin[Bland.Chromatin_outlier]
+cancerds$Mitoses[Mitoses_outlier]
+
+#Cancer_OutlierNA <- cancerds
+#The following code sets the outliers to NA in a new dataframe called Cancer_OutlierNA
+cancerds$Marginal.Adhesion <- ifelse(d %in% Marginal.Adhesion_outlier, NA, d)
+cancerds$Single.Epithelial.Cell.Size <- ifelse(e %in% Single.Epithelial.Cell.Size_outlier, NA, e)
+cancerds$Normal.Nucleoli <- ifelse(f %in% Normal.Nucleoli_outlier, NA, f)
+cancerds$Bland.Chromatin <- ifelse(g %in% Bland.Chromatin_outlier, NA, g)
+cancerds$Mitoses <- ifelse(h %in% Mitoses_outlier, NA, h)
+
+
+#Marginal.Adhesion had 60 NA's
+#Bare.Nuclei had 16 NA's
+#Bland.Chromatin_outlier had 20 NA's
+#Single.Epithelial.Cell.Size had 54 NA's
+#Normal.Nucleoli had 157 outlier
+#Chromatin_outlier had 20 NA's
+#Mitoses_outlier had 240 NA's
+# total 699 obs
+
+Cancer_OutlierNA <- cancerds
+
+summary(Cancer_OutlierNA)
+str(Cancer_OutlierNA)
+
+## the below code omits any records with NA
+# total 401 observations after omitting NA's
+cancerds_NoNA <- na.omit(Cancer_OutlierNA)
+summary(cancerds_NoNA)
+str(cancerds_NoNA)
+
+```
+ 
+
+#Visualise the cancerds_NoNA dataset - there should be no outliers
+#the below code is still showing outliers - I think we should not check this
+```{r}
+library(ggplot2)
+df <-data.frame(cancerds_NoNA)
+par(mfrow=(c(2,5)))
+
+j<- cancerds_NoNA$Clump.Thickness
+k<- cancerds_NoNA$Uniformity.of.Cell.Size
+l<- cancerds_NoNA$Uniformity.of.Cell.Shape
+m<- cancerds_NoNA$Marginal.Adhesion
+n<- cancerds_NoNA$Single.Epithelial.Cell.Size
+o<- cancerds_NoNA$Bare.Nuclei
+p<- cancerds_NoNA$Bland.Chromatin
+q<- cancerds_NoNA$Normal.Nucleoli
+r<- cancerds_NoNA$Mitoses
+
+boxplot(j,k,l,m,n,o,p,q,r, coef = 2, names = c("Clump.Thickness","Uniformity.of.Cell.Size","Uniformity.of.Cell.Shape","Marginal.Adhesion","Single.Epithelial.Cell.Size","Bare.Nuclei","Bland.Chromatin","Normal.Nucleoli","Mitoses"))
+
+Marginal.Adhesion_outlier <- boxplot(cancerds_NoNA$Clump.Thickness, coef = 2)$out
+Marginal.Adhesion_outlier <- boxplot(cancerds_NoNA$Marginal.Adhesion, coef = 2)$out
+
+```
+
+
+ Use k-nearest neighbour (kNN) imputation of the Visualization and Imputation of Missing Values (VIM) package to impute all missing values.
+
+```{r}
+#Code for the above exercise.
+library(VIM)
+n <- nrow(cancerds_NoNA)
+
+#Chech how many NAs are introduced.
+cancerds_NoNA[is.na(cancerds_NoNA)]
+
+# Check, if all the NA values have been imputed.
+#Impute  all the NAs by kNN.
+#Nothing to impute, because no NA are present (also after using makeNA)> 
+cancerds_imputed <- kNN(cancerds_NoNA)
+```
+
+Check Skewness and Normality of Clump.Thickness
+
+```{r}
+#Code for the above exercise.
+# The data has a positive skewness 0.7956501 value . This implies the data is moderately skewed 
+library(e1071)
+cancer_skew.Clump.Thickness <- skewness(cancerds_NoNA$Clump.Thickness)
+cancer_skew.Clump.Thickness
+
+#Apply Shapiro-Wilks test to check for normality.
+# It returna value of 3.461373e-17 i.e 0.00000000000000003461373 . p-value is less than 0.05 the data deviates from normality 
+result <- shapiro.test(cancerds_NoNA$Clump.Thickness)
+result$p.value
+
+#2. Obtian Box Cox plot to find an appropriate ?? value.
+library(MASS)
+par(mfrow = c(1,1))
+boxcox(cancerds_NoNA$Clump.Thickness~1,plotit=TRUE, lambda=seq(-1.5,1.5,0.01))
+title(main="Box-Cox Plot")
+
+#1. Obtain density plot, boxplot, and normal probability plot to check whether the data is non-normal.
+par(mfrow = c(1,3)) # Make three columns in the figure window
+hist(cancerds_NoNA$Clump.Thickness,freq=FALSE,main="Density Plot of Clump.Thickness",xlab="Clump.Thickness")
+lines(density(cancerds_NoNA$Clump.Thickness))
+boxplot(cancerds_NoNA$Clump.Thickness,main="Clump.Thickness",ylab="Clump.Thickness")
+qqnorm(cancerds_NoNA$Clump.Thickness,main="Normal Plot of Clump.Thickness",ylab="Clump.Thickness")
+qqline(cancerds_NoNA$Clump.Thickness)
+
+#Apply power transformation.
+cancerds.new=cancerds_NoNA$Clump.Thickness^(0.2)
+
+#Apply Shapiro-Wilks test to check for normality of the transfomred data.
+par(mfrow = c(1,3))
+hist(cancerds.new,freq=FALSE,main="Density Plot of Clump.Thickness, lambda=0.1",xlab="Clump.Thickness^(0.1)")
+lines(density(cancerds.new))
+boxplot(cancerds.new,main="Clump.Thickness, lambda=-0.1",ylab="Clump.Thickness^(0.1)")
+qqnorm(cancerds.new,main="Normal Plot of Clump.Thickness, lambda=-0.1",ylab="Clump.Thickness^(0.1)")
+qqline(cancerds.new)
+
+result <- shapiro.test(cancerds.new)
+result$p.value
+
+```
+
+Check Skewness and Normality of Marginal.Adhesion highly non normal 
+
+```{r}
+#Code for the above exercise.
+# The data has a positive skewness 4.27825 value . This implies the data is highly skewed 
+library(e1071)
+cancer_skew.Marginal.Adhesion <- skewness(cancerds_NoNA$Marginal.Adhesion)
+cancer_skew.Marginal.Adhesion
+
+#Apply Shapiro-Wilks test to check for normality.
+# It returna value of 2.264956e-34 . p-value is lose to 0 less than 0.05 the data deviates from normality 
+result <- shapiro.test(cancerds_NoNA$Marginal.Adhesion)
+result$p.value
+
+#2. Obtian Box Cox plot to find an appropriate ?? value.
+library(MASS)
+par(mfrow = c(1,1))
+boxcox(cancerds_NoNA$Marginal.Adhesion~1,plotit=TRUE, lambda=seq(-1.5,1.5,0.01))
+title(main="Box-Cox Plot")
+
+#1. Obtain density plot, boxplot, and normal probability plot to check whether the data is non-normal.
+par(mfrow = c(1,3)) # Make three columns in the figure window
+hist(cancerds_NoNA$Marginal.Adhesion,freq=FALSE,main="Density Plot of Marginal.Adhesion",xlab="Marginal.Adhesion")
+lines(density(cancerds_NoNA$Marginal.Adhesion))
+boxplot(cancerds_NoNA$Marginal.Adhesion,main="Marginal.Adhesion",ylab="Marginal.Adhesion")
+qqnorm(cancerds_NoNA$Marginal.Adhesion,main="Normal Plot of Marginal.Adhesion",ylab="Marginal.Adhesion")
+qqline(cancerds_NoNA$Marginal.Adhesion)
+
+#Apply power transformation.
+cancerds.new=cancerds_NoNA$Marginal.Adhesion^(0.2)
+
+#Apply Shapiro-Wilks test to check for normality of the transfomred data.
+par(mfrow = c(1,3))
+hist(cancerds.new,freq=FALSE,main="Density Plot of Marginal.Adhesion, lambda=0.1",xlab="Marginal.Adhesion^(0.1)")
+lines(density(cancerds.new))
+boxplot(cancerds.new,main="Marginal.Adhesion, lambda=-0.1",ylab="Marginal.Adhesion^(0.1)")
+qqnorm(cancerds.new,main="Normal Plot of Marginal.Adhesion, lambda=-0.1",ylab="Marginal.Adhesion^(0.1)")
+qqline(cancerds.new)
+
+result <- shapiro.test(cancerds.new)
+result$p.value
+
+```
+Multivariate analysis and PCA 
+
+```{r }
+#load data.
+str(cancerds_NoNA)
+x <-data(cancerds_NoNA)
+
+head(x)
+
+#check the variance to decide whether the scaling is required. 
+#format for apply  apply(matrix,on columns,function)
+apply(cancerds_NoNA, 2, var)
+
+#Apply scaling.
+scaled_df <- apply(cancerds_NoNA, 2, scale)
+head(scaled_df)
+
+#Verify whether now the variance is close to unity.
+apply(scaled_df, 2, var)
+
+# Calculate eigenvalues & eigenvectors.
+cancerds_NoNA.cov <- cov(scaled_df)    #covariance 
+head(cancerds_NoNA.cov)   # prin the covariance matrix
+
+cancerds_NoNA.eigen <- eigen(cancerds_NoNA.cov)
+head(cancerds_NoNA.eigen)
+str(cancerds_NoNA.eigen)
+
+# Extract the first two sets of loadings and store them in the matrix phi.
+(phi <- cancerds_NoNA.eigen$vectors[,1:2])
+
+#eigenvectors in R point in the negative direction. It is prefered that the eigenvectors point in the positive direction because it leads to more logical interpretation of graphical results. 
+phi
+phi <- -phi
+row.names(phi) <- c("Sample.code.number",
+"Clump.Thickness",
+"Uniformity.of.Cell.Size",
+"Uniformity.of.Cell.Shape",
+"Marginal.Adhesion",
+"Single.Epithelial.Cell.Size",
+"Bare.Nuclei",
+"Bland.Chromatin",
+"Normal.Nucleoli",
+"Mitoses",
+"Class")
+colnames(phi) <- c("PC1", "PC2")
+phi
+
+# Calculate Principal Components scores
+PC1 <- as.matrix(scaled_df) %*% phi[,1]
+PC2 <- as.matrix(scaled_df) %*% phi[,2]
+
+# Create data frame with Principal Components scores.
+PC <- data.frame(State = row.names(cancerds_NoNA), PC1, PC2)
+head(PC, 3)
+
+# Plot Principal Components for each State
+
+library("ggplot2")
+ggplot(PC, aes(PC1, PC2)) + 
+  modelr::geom_ref_line(h = 0) +
+  modelr::geom_ref_line(v = 0) +
+ geom_text(aes(label = State), size = 3) +
+  xlab("First Principal Component") + 
+  ylab("Second Principal Component") + 
+  ggtitle("First Two Principal Components of Cancer Data")
+
+
+#A vector of proportion of variance explained (PVE) for each principal component is calculated.
+PVE <- cancerds_NoNA.eigen$values / sum(cancerds_NoNA.eigen$values)
+round(PVE, 2)
+
+# PVE (aka scree) plot. It may require installing gridExtra package, if not already installed.
+
+#install("gridExtra")
+library(gridExtra)
+PVEplot <- qplot(c(1:11), PVE) + 
+  geom_line() + 
+  xlab("Principal Component") + 
+  ylab("PVE") +
+  ggtitle("Scree Plot") +
+  ylim(0, 1)
+
+# Cumulative PVE plot
+cumPVE <- qplot(c(1:11), cumsum(PVE)) + 
+  geom_line() + 
+  xlab("Principal Component") + 
+  ylab(NULL) + 
+  ggtitle("Cumulative Scree Plot") +
+  ylim(0,1)
+
+grid.arrange(PVEplot, cumPVE, ncol = 2)
+
+```
+
+Use PCA prcomp 
+
+
+```{r }
+data(cancerds_NoNA)
+pca_result <- prcomp(cancerds_NoNA, scale = TRUE)
+names(pca_result)
+
+#The rotation matrix provides the principal component loadings; each column of pca_result$rotation contains the corresponding principal component loading vector.As mentioned in the previous task, we change the sign to point eigenvectors in the positive direction.
+pca_result$rotation <- -pca_result$rotation
+
+#We can also obtain the principal components scores from our results as these are stored in the x list item of our results. However, we also want to make a slight sign adjustment to our scores to point them in the positive direction.
+pca_result$x <- - pca_result$x
+head(pca_result$x)
+# clump thickness, marginal adhesion, mitoses and cell size seems to be aligned to PC1
+biplot(pca_result, scale = 0)
+
+#The variance explained by each principal component is obtained by squaring these values:
+(VE <- pca_result$sdev^2)
+
+#To compute the proportion of variance explained by each principal component, we simply divide the variance explained by each principal component by the total variance explained by all four principal components:
+PVE <- VE / sum(VE)
+round(PVE, 2)
+
+library(gridExtra)
+PVEplot <- qplot(c(1:11), PVE) + 
+  geom_line() + 
+  xlab("Principal Component") + 
+  ylab("PVE") +
+  ggtitle("Scree Plot") +
+  ylim(0, 1)
+
+# Cumulative PVE plot
+cumPVE <- qplot(c(1:11), cumsum(PVE)) + 
+  geom_line() + 
+  xlab("Principal Component") + 
+  ylab(NULL) + 
+  ggtitle("Cumulative Scree Plot") +
+  ylim(0,1)
+
+grid.arrange(PVEplot, cumPVE, ncol = 2)
+
+#Study correlation. 
+library(corrplot)
+
+#Correlation between PCs.
+PCcor=cor(pca_result$x)
+#Correlation plot.
+corrplot(PCcor, order="hclust")
+#Scatter plot.
+ggplot(cancerds_NoNA, aes(x=pca_result$x[,1], y=pca_result$x[,2]))+geom_point()
+# There is some positive correlation between PC3 and Pc9
+
+#Correlation among variables of cancer datasets
+Origcor=cor(cancerds_NoNA)
+#Correlation plot.
+corrplot(cancerds_NoNA, order="hclust")
+#Scatter plot of
+ggplot(cancerds_NoNA, aes(x=cancerds_NoNA$Clump.Thickness, y=cancerds_NoNA$Uniformity.of.Cell.Shape))+geom_point()
+
+```
